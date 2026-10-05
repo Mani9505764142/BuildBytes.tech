@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 
-export default function BuildBytesNavbar({ activeScene }) {
+export default function BuildBytesNavbar({ activeScene, onReplayIntro }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -79,7 +79,18 @@ export default function BuildBytesNavbar({ activeScene }) {
         </nav>
 
         {/* Right CTA Button */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          {onReplayIntro && (
+            <button
+              onClick={onReplayIntro}
+              className="hidden md:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-[#29233B] hover:border-[#E53E9C]/60 bg-[#0B0A14]/70 hover:bg-[#1D192B] text-[#8A84A3] hover:text-[#ECEAF5] text-xs font-mono transition-all cursor-pointer shadow-sm"
+              title="Replay Studio Intro"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E50914] animate-pulse"></span>
+              <span className="text-[11px] font-semibold tracking-wider">INTRO</span>
+            </button>
+          )}
+
           <button
             onClick={() => handleScroll('contact')}
             className="hidden sm:inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#7B2FF7] to-[#E53E9C] hover:from-[#8C47F8] hover:to-[#EA54A8] text-[#ECEAF5] text-xs font-mono font-bold tracking-wider uppercase shadow-[0_0_20px_rgba(123,47,247,0.3)] hover:shadow-[0_0_30px_rgba(229,62,156,0.45)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
@@ -125,7 +136,16 @@ export default function BuildBytesNavbar({ activeScene }) {
             ))}
           </div>
 
-          <div className="pt-2 border-t border-[#29233B]">
+          <div className="pt-2 border-t border-[#29233B] space-y-2">
+            {onReplayIntro && (
+              <button
+                onClick={() => { setMobileMenuOpen(false); onReplayIntro(); }}
+                className="w-full text-center py-2 bg-[#1D192B] hover:bg-[#252038] border border-[#7B2FF7]/40 text-[#ECEAF5] text-xs font-mono rounded-xl transition-all flex items-center justify-center space-x-2 tracking-wider uppercase cursor-pointer"
+              >
+                <span className="w-2 h-2 rounded-full bg-[#E50914] animate-pulse"></span>
+                <span>▶ REPLAY INTRO</span>
+              </button>
+            )}
             <button
               onClick={() => handleScroll('contact')}
               className="w-full text-center py-2.5 bg-gradient-to-r from-[#7B2FF7] to-[#E53E9C] text-[#ECEAF5] text-xs font-mono font-bold rounded-xl transition-all block tracking-wider uppercase shadow-lg cursor-pointer"

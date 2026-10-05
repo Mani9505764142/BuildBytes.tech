@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CinematicOverlay({ activeScene, totalScenes = 7 }) {
+export default function CinematicOverlay({ activeScene, totalScenes = 7, onReplayIntro }) {
   return (
     <>
       {/* Film grain layer */}
@@ -20,8 +20,17 @@ export default function CinematicOverlay({ activeScene, totalScenes = 7 }) {
             <span className="hidden sm:inline text-[#4F6EF7]">BUILDBYTES AUTOMATION ENGINE</span>
           </div>
 
-          <div className="flex items-center space-x-3">
-            <span className="hidden md:inline tracking-wider text-[#8A84A3]/60">COLOR: INDIGO-PURPLE GRADE</span>
+          <div className="flex items-center space-x-3 pointer-events-auto">
+            {onReplayIntro && (
+              <button
+                onClick={onReplayIntro}
+                className="group hidden sm:flex items-center space-x-1.5 px-2.5 py-1 rounded bg-[#15121F]/80 hover:bg-[#252038] border border-[#7B2FF7]/40 hover:border-[#E53E9C] text-[#ECEAF5] transition-all text-[10px] font-mono cursor-pointer shadow-lg backdrop-blur-sm"
+                title="Replay Intro"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#E50914] group-hover:animate-ping" />
+                <span className="text-[#8A84A3] group-hover:text-white transition-colors">▶ INTRO</span>
+              </button>
+            )}
             <div className="flex items-center space-x-1.5 border border-[#4F6EF7]/20 px-2 py-0.5 rounded bg-[#0B0A14]/70 backdrop-blur-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-[#4F6EF7]"></span>
               <span className="text-[#4F6EF7] font-medium tracking-wider">24.00 FPS</span>

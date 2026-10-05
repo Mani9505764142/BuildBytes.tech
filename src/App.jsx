@@ -55,10 +55,17 @@ export default function App() {
       )}
 
       {/* 2. Global Cinematic Overlay (Framing reticles, grain, vignette, dynamic scene tracker) */}
-      <CinematicOverlay activeScene={activeScene} totalScenes={7} />
+      <CinematicOverlay 
+        activeScene={activeScene} 
+        totalScenes={7} 
+        onReplayIntro={() => setOpeningFinished(false)} 
+      />
 
       {/* 3. Global Navbar Featuring Actual Logo Badge */}
-      <BuildBytesNavbar activeScene={activeScene} />
+      <BuildBytesNavbar 
+        activeScene={activeScene} 
+        onReplayIntro={() => setOpeningFinished(false)} 
+      />
 
       {/* 4. The 7 Numbered Scenes */}
       <main className="relative z-10" id="main-content">
