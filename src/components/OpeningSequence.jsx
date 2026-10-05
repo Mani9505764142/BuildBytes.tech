@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, Sparkles, Play } from 'lucide-react';
+import { Volume2, VolumeX, Sparkles, Play, ArrowRight } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 import { netflixAudio } from '../utils/netflixSound';
 
 export default function OpeningSequence({ onComplete }) {
   // If the user previously interacted or audio is already running, ready immediately.
-  // Otherwise, require an explicit cinematic click so the browser unlocks full audio.
+  // Otherwise, require an explicit click to enter so the browser unlocks full audio.
   const [isReadyToPlay, setIsReadyToPlay] = useState(() => {
     return netflixAudio.isAudioAllowed();
   });
@@ -89,23 +89,14 @@ export default function OpeningSequence({ onComplete }) {
     };
   }, [isReadyToPlay, onComplete]);
 
-  // Keyboard shortcut listener (Space or Esc to skip / Enter to start)
+  // Keyboard shortcut listener (Enter or Space to enter website)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isReadyToPlay) {
         if (e.code === 'Enter' || e.code === 'Space') {
           e.preventDefault();
           handleStartWithAudio();
-        } else if (e.code === 'Escape') {
-          e.preventDefault();
-          handleSkip();
         }
-        return;
-      }
-
-      if (e.code === 'Space' || e.code === 'Escape' || e.code === 'Enter') {
-        e.preventDefault();
-        handleSkip();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -303,7 +294,7 @@ export default function OpeningSequence({ onComplete }) {
         {/* Ambient Dark Background Glow */}
         <div className="absolute inset-0 bg-radial-gradient from-[#1a0f2e]/60 via-[#05040a]/90 to-[#000000] pointer-events-none" />
 
-        {/* --- INITIAL INTERACTIVE LAUNCH SCREEN (REQUIRED BY BROWSER AUTOPLAY POLICY) --- */}
+        {/* --- INITIAL INTERACTIVE LAUNCH SCREEN --- */}
         {!isReadyToPlay ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.94 }}
@@ -332,10 +323,10 @@ export default function OpeningSequence({ onComplete }) {
 
             {/* Eyebrow Telemetry Badge */}
             <div className="mb-4 inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#15121F]/90 border border-[#29233B] text-[10px] font-mono text-[#8A84A3] shadow-lg">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E50914] animate-pulse" />
-              <span className="text-[#ECEAF5] font-semibold tracking-wider">CINEMATIC AUDIO EXPERIENCE</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00F0FF] animate-pulse" />
+              <span className="text-[#ECEAF5] font-semibold tracking-wider">OFFICIAL WEBSITE</span>
               <span className="text-[#4E4861]">•</span>
-              <span className="text-[#00F0FF]">DOLBY ATMOS SIM</span>
+              <span className="text-[#00F0FF]">DIGITAL EXPERIENCE</span>
             </div>
 
             {/* Headline */}
@@ -344,26 +335,17 @@ export default function OpeningSequence({ onComplete }) {
             </h2>
 
             <p className="text-xs sm:text-sm font-sans text-[#8A84A3] max-w-sm mb-8 leading-relaxed">
-              Click below to experience the opening sequence with immersive spatial sound.
+              Step into the next-generation digital ecosystem built for modern enterprises.
             </p>
 
-            {/* Primary Action: ENTER WITH SOUND */}
+            {/* Primary Action: CLICK TO ENTER WEBSITE */}
             <button
-              id="enter-with-sound-btn"
+              id="enter-website-btn"
               onClick={handleStartWithAudio}
-              className="group relative px-8 py-4 sm:px-10 sm:py-4.5 rounded-2xl bg-gradient-to-r from-[#E50914] via-[#E53E9C] to-[#7B2FF7] hover:from-[#FF1E27] hover:via-[#F155AD] hover:to-[#8C47F8] text-white font-mono font-bold text-sm sm:text-base tracking-wider uppercase shadow-[0_0_40px_rgba(229,62,156,0.55)] hover:shadow-[0_0_60px_rgba(229,9,20,0.8)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center space-x-3 cursor-pointer"
+              className="group relative px-9 py-4 sm:px-11 sm:py-4.5 rounded-2xl bg-gradient-to-r from-[#E50914] via-[#E53E9C] to-[#7B2FF7] hover:from-[#FF1E27] hover:via-[#F155AD] hover:to-[#8C47F8] text-white font-mono font-bold text-sm sm:text-base tracking-wider uppercase shadow-[0_0_40px_rgba(229,62,156,0.55)] hover:shadow-[0_0_60px_rgba(229,9,20,0.8)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center space-x-3 cursor-pointer"
             >
-              <Volume2 className="w-5 h-5 text-white animate-bounce" />
-              <span>EXPERIENCE WITH SOUND</span>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-black/40 font-mono text-white/90">TA-DUM</span>
-            </button>
-
-            {/* Secondary Option: Skip */}
-            <button
-              onClick={handleSkip}
-              className="mt-6 text-[11px] font-mono text-[#8A84A3]/70 hover:text-white transition-colors cursor-pointer"
-            >
-              Skip Intro & Enter Website →
+              <span>CLICK TO ENTER WEBSITE</span>
+              <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-1.5 transition-transform duration-300" />
             </button>
           </motion.div>
         ) : (
@@ -596,22 +578,7 @@ export default function OpeningSequence({ onComplete }) {
               }`}
             />
 
-            {/* --- CONTROLS: "SKIP INTRO" + SOUND TOGGLE --- */}
-            <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-40 flex items-center space-x-3 pointer-events-auto">
-              {/* Skip Intro Button */}
-              <button
-                id="skip-netflix-intro-btn"
-                onClick={handleSkip}
-                className="group relative flex items-center space-x-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded bg-black/60 hover:bg-black/90 text-[#ECEAF5] hover:text-white border border-[#4E4861]/70 hover:border-white/80 backdrop-blur-md transition-all duration-200 text-xs sm:text-sm font-sans font-medium uppercase tracking-wider shadow-2xl active:scale-95 cursor-pointer"
-                aria-label="Skip Intro"
-              >
-                <span>Skip Intro</span>
-                <span className="hidden sm:inline text-[10px] font-mono text-[#8A84A3] border border-[#3E3852] rounded px-1.5 py-0.5 group-hover:border-white/40">
-                  SPACE
-                </span>
-              </button>
-            </div>
-
+            {/* --- CONTROLS: SOUND TOGGLE --- */}
             {/* Sound Toggle (Top Right) */}
             <div className="absolute top-6 right-6 sm:top-8 sm:right-8 z-40 flex items-center space-x-2">
               <button
