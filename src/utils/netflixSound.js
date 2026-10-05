@@ -23,6 +23,21 @@ class NetflixAudioEngine {
     }
   }
 
+  isAudioAllowed() {
+    if (typeof window === 'undefined') return false;
+    return !!(this.ctx && this.ctx.state === 'running');
+  }
+
+  async unlockAudio() {
+    this.init();
+    if (this.ctx && this.ctx.state === 'suspended') {
+      try {
+        await this.ctx.resume();
+      } catch (_) {}
+    }
+    return this.ctx?.state === 'running';
+  }
+
   setMuted(muted) {
     this.isMuted = muted;
     if (muted) {
